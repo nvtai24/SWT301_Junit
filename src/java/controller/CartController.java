@@ -20,7 +20,7 @@ public class CartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         CartDAO cartDao = new CartDAO();
         
         HttpSession session = request.getSession();
@@ -55,10 +55,10 @@ public class CartController extends HttpServlet {
         
         request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("username");
         
@@ -82,7 +82,6 @@ public class CartController extends HttpServlet {
         double price = book.getPrice();
         
         boolean addCart = cartDao.addOrUpdateOrderDetail(order.getOrderId(), bookId, quantity, price);
-
 
         if (!addCart) {
             String mess  = "vượt quá số lượng trong kho cuốn sách " + book.getTitle();

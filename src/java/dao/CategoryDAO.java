@@ -81,7 +81,6 @@ public class CategoryDAO extends DBConnect {
     }
 
     
-    
     // có vấn đề 
     public boolean deleteCategory(int id) {
         String query = "DELETE FROM Categories WHERE category_id = ?";
@@ -123,4 +122,5 @@ public class CategoryDAO extends DBConnect {
 
         return categories;
     }
+    
 }

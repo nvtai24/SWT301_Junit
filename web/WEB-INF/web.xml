@@ -77,8 +77,8 @@
         <servlet-class>controller.AddAndEditAuthorController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>managerBookController</servlet-name>
-        <servlet-class>controller.managerBookController</servlet-class>
+        <servlet-name>ManagerBookController</servlet-name>
+        <servlet-class>controller.ManagerBookController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddNewBookController</servlet-name>
@@ -165,7 +165,7 @@
         <url-pattern>/add-edit-author</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>managerBookController</servlet-name>
+        <servlet-name>ManagerBookController</servlet-name>
         <url-pattern>/manager-book</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

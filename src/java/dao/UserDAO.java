@@ -20,7 +20,7 @@ public class UserDAO extends DBConnect {
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                user = new User();
+                user = new User(1);
                 user.setUserId(rs.getInt("user_id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
@@ -85,7 +85,7 @@ public class UserDAO extends DBConnect {
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                user = new User();
+                user = new User(1);
                 user.setUserId(rs.getInt("user_id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
@@ -110,7 +110,7 @@ public class UserDAO extends DBConnect {
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                User user = new User();
+                User user = new User(1);
                 user.setUserId(rs.getInt("user_id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
@@ -154,7 +154,7 @@ public class UserDAO extends DBConnect {
             stmt.setInt(2, pageSize);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                User user = new User();
+                User user = new User(1);
                 user.setUserId(rs.getInt("user_id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));

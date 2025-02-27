@@ -23,6 +23,12 @@ public class User {
     public User() {
     }
 
+    
+    
+    public User(int par) {
+        this.userId = par;
+    }
+
     public User(int userId, String username, String password, String fullName, String email, Role roleId, Date registrationDate, String status) {
         this.userId = userId;
         this.username = username;

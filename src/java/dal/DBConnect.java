@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class DBConnect {
 
-    protected Connection conn = null;
+    public Connection conn = null;
 
     public DBConnect() {
         try {

@@ -165,6 +165,4 @@ public class Book {
         return "Book{" + "bookId=" + bookId + ", categoryId=" + categoryId + ", title=" + title + ", rating=" + rating + ", price=" + price + ", viewCount=" + viewCount + ", quantityInStock=" + quantityInStock + ", quantitySold=" + quantitySold + ", releaseDate=" + releaseDate + ", description=" + description + ", listAuthor=" + listAuthor + '}';
     }
 
-  
-  
 }
