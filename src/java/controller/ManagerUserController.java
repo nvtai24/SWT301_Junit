@@ -11,6 +11,12 @@ import model.User;
 
 public class ManagerUserController extends HttpServlet {
 
+    private UserDAO userDao;
+
+    public ManagerUserController(UserDAO userDao) {
+        this.userDao = userDao;
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -25,23 +31,16 @@ public class ManagerUserController extends HttpServlet {
             currentPage = Integer.parseInt(pageParam);
         }
 
-        UserDAO userDao = new UserDAO();
-
-        // Lấy tổng số lượng người dùng
-        int totalUsers = userDao.getTotalUsers();
-
-        // Tính số trang
+        // ⚠️ Sửa lỗi: Dùng this.userDao thay vì tạo new UserDAO() mới
+        int totalUsers = this.userDao.getTotalUsers();
         int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
-
-        // Lấy danh sách người dùng cho trang hiện tại
-        List<User> listUser = userDao.getUsersByPage(currentPage, pageSize);
+        List<User> listUser = this.userDao.getUsersByPage(currentPage, pageSize);
 
         request.setAttribute("listUser", listUser);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", currentPage);
 
         request.getRequestDispatcher("managerUser.jsp").forward(request, response);
-
     }
 
 }

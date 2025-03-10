@@ -90,6 +90,7 @@ public class UserDAO extends DBConnect {
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
                 user.setFullName(rs.getString("full_name"));
+                user.setStatus(rs.getString("status"));
 
                 RoleDAO roleDao = new RoleDAO();
                 Role role = roleDao.getRoleByRoleId(rs.getInt("role_id"));
@@ -145,10 +146,18 @@ public class UserDAO extends DBConnect {
         return totalUsers;
     }
 
-    public List<User> getUsersByPage(int currentPage, int pageSize) {
+    public List<User> getUsersByPage(int currentPage, int pageSize) throws SQLException  {
+        if (currentPage <= 0) {
+            throw new IllegalArgumentException("currentPage must be greater than 0");
+        }
+        if (pageSize <= 0) {
+            throw new IllegalArgumentException("pageSize must be greater than 0");
+        }
+
         List<User> userList = new ArrayList<>();
         int startRow = (currentPage - 1) * pageSize;
         String query = "SELECT * FROM Users ORDER BY user_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, startRow);
             stmt.setInt(2, pageSize);
@@ -170,7 +179,7 @@ public class UserDAO extends DBConnect {
                 userList.add(user);
             }
         } catch (SQLException e) {
-            ExceptionHandlers.handleException(e);
+            throw new SQLException("Database error");
         }
         return userList;
     }
@@ -181,11 +190,15 @@ public class UserDAO extends DBConnect {
 
         if (null == currentStatus) {
             return false; // Handle unknown status or other cases
-        } else switch (currentStatus) {
-            case "active" -> query = "UPDATE Users SET status = 'banned' WHERE user_id = ?";
-            case "banned" -> query = "UPDATE Users SET status = 'active' WHERE user_id = ?";
-            default -> {
-                return false; // Handle unknown status or other cases
+        } else {
+            switch (currentStatus) {
+                case "active" ->
+                    query = "UPDATE Users SET status = 'banned' WHERE user_id = ?";
+                case "banned" ->
+                    query = "UPDATE Users SET status = 'active' WHERE user_id = ?";
+                default -> {
+                    return false; // Handle unknown status or other cases
+                }
             }
         }
 
@@ -214,25 +227,19 @@ public class UserDAO extends DBConnect {
         return status;
     }
 
-    public boolean deleteUserData(int userId) {
+    public boolean deleteUserData(int userId) throws SQLException {
         try {
-            // Xóa từ bảng OrderDetails (Chi tiết đơn hàng)
             String deleteOrderDetailsQuery = "DELETE FROM OrderDetails WHERE order_id IN (SELECT order_id FROM Orders WHERE user_id = ?)";
             try (PreparedStatement stmt = conn.prepareStatement(deleteOrderDetailsQuery)) {
                 stmt.setInt(1, userId);
                 stmt.executeUpdate();
             }
 
-            // Xóa từ bảng Orders (Đơn hàng)
             String deleteOrdersQuery = "DELETE FROM Orders WHERE user_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(deleteOrdersQuery)) {
                 stmt.setInt(1, userId);
                 stmt.executeUpdate();
             }
-
-
-
-
 
             String deleteUserQuery = "DELETE FROM Users WHERE user_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(deleteUserQuery)) {
@@ -241,9 +248,8 @@ public class UserDAO extends DBConnect {
                 return rowsAffected > 0;
             }
         } catch (SQLException e) {
-            ExceptionHandlers.handleException(e);
+            throw e;
         }
-        return false;
     }
 
     public void addAuthor(String authorName, String authorImage, String authorDescription) {
@@ -273,50 +279,47 @@ public class UserDAO extends DBConnect {
             ExceptionHandlers.handleException(e);
         }
     }
-    
+
     public boolean deleteAuthor(int authorId) {
-    try {
-        // Delete from BookAuthors table first
-        String deleteBookAuthorsQuery = "DELETE FROM BookAuthors WHERE author_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(deleteBookAuthorsQuery)) {
-            stmt.setInt(1, authorId);
-            stmt.executeUpdate();
-        }
+        try {
+            // Delete from BookAuthors table first
+            String deleteBookAuthorsQuery = "DELETE FROM BookAuthors WHERE author_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(deleteBookAuthorsQuery)) {
+                stmt.setInt(1, authorId);
+                stmt.executeUpdate();
+            }
 
-        // Delete associated books from Books table
-        String deleteBooksQuery = "DELETE FROM Books WHERE book_id IN (SELECT book_id FROM BookAuthors WHERE author_id = ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(deleteBooksQuery)) {
-            stmt.setInt(1, authorId);
-            stmt.executeUpdate();
-        }
+            // Delete associated books from Books table
+            String deleteBooksQuery = "DELETE FROM Books WHERE book_id IN (SELECT book_id FROM BookAuthors WHERE author_id = ?)";
+            try (PreparedStatement stmt = conn.prepareStatement(deleteBooksQuery)) {
+                stmt.setInt(1, authorId);
+                stmt.executeUpdate();
+            }
 
-        // Delete from OrderDetails table
-        String deleteOrderDetailsQuery = "DELETE FROM OrderDetails WHERE book_id IN (SELECT book_id FROM BookAuthors WHERE author_id = ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(deleteOrderDetailsQuery)) {
-            stmt.setInt(1, authorId);
-            stmt.executeUpdate();
-        }
+            // Delete from OrderDetails table
+            String deleteOrderDetailsQuery = "DELETE FROM OrderDetails WHERE book_id IN (SELECT book_id FROM BookAuthors WHERE author_id = ?)";
+            try (PreparedStatement stmt = conn.prepareStatement(deleteOrderDetailsQuery)) {
+                stmt.setInt(1, authorId);
+                stmt.executeUpdate();
+            }
 
-      
-        // Delete from BookAuthors table (again, in case some books were not deleted initially)
-        try (PreparedStatement stmt = conn.prepareStatement(deleteBookAuthorsQuery)) {
-            stmt.setInt(1, authorId);
-            stmt.executeUpdate();
-        }
+            // Delete from BookAuthors table (again, in case some books were not deleted initially)
+            try (PreparedStatement stmt = conn.prepareStatement(deleteBookAuthorsQuery)) {
+                stmt.setInt(1, authorId);
+                stmt.executeUpdate();
+            }
 
-        // Finally, delete from Authors table
-        String deleteAuthorQuery = "DELETE FROM Authors WHERE author_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(deleteAuthorQuery)) {
-            stmt.setInt(1, authorId);
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;
+            // Finally, delete from Authors table
+            String deleteAuthorQuery = "DELETE FROM Authors WHERE author_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(deleteAuthorQuery)) {
+                stmt.setInt(1, authorId);
+                int rowsAffected = stmt.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (SQLException e) {
+            ExceptionHandlers.handleException(e);
         }
-    } catch (SQLException e) {
-        ExceptionHandlers.handleException(e);
+        return false;
     }
-    return false;
-}
-
-
 
 }

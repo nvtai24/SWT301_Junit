@@ -4,18 +4,12 @@
  */
 package Javacore;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
  * @author DELL
  */
-import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class CarInsuranceCalculatorTest {
