@@ -23,6 +23,15 @@ public class User {
     public User() {
     }
 
+    public User(int userId, String username, String email, String status) {
+        this.userId = userId;
+        this.username = username;
+        this.email = email;
+        this.status = status;
+    }
+    
+    
+
     
     
     public User(int par) {

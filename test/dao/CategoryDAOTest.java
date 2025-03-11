@@ -43,8 +43,8 @@ public class CategoryDAOTest {
         String categoryName = "Science";
 
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
-        when(mockPreparedStatement.executeQuery()).then Return(mockResultSet);
-        when(mockResultSet.next()).thenReturn(true); // Có dữ liệu
+        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
+        when(mockResultSet.next()).thenReturn(true);
         when(mockResultSet.getInt("category_id")).thenReturn(categoryId);
         when(mockResultSet.getString("category_name")).thenReturn(categoryName);
 
@@ -57,7 +57,7 @@ public class CategoryDAOTest {
 
     @Test
     public void testGetCategoryById_InvalidId_ShouldReturnNull() throws Exception {
-        int categoryId = 99; // Giả định không có ID này trong DB
+        int categoryId = 99;
 
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
         when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
@@ -76,7 +76,7 @@ public class CategoryDAOTest {
 
         Category result = categoryDAO.getCategoryById(categoryId);
 
-        assertNull(result); // Khi có lỗi SQL, hàm nên trả về null
+        assertNull(result);
     }
 
     @Test
@@ -128,7 +128,7 @@ public class CategoryDAOTest {
         Category category = new Category(0, "New Category");
 
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
-        when(mockPreparedStatement.executeUpdate()).thenReturn(1); // 1 dòng bị ảnh hưởng -> thành công
+        when(mockPreparedStatement.executeUpdate()).thenReturn(1);
 
         boolean result = categoryDAO.addCategory(category);
 
@@ -142,7 +142,7 @@ public class CategoryDAOTest {
         Category category = new Category(0, "New Category");
 
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
-        when(mockPreparedStatement.executeUpdate()).thenReturn(0); // Không có dòng nào bị ảnh hưởng
+        when(mockPreparedStatement.executeUpdate()).thenReturn(0);
 
         boolean result = categoryDAO.addCategory(category);
 
