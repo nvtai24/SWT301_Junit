@@ -424,7 +424,7 @@ public class BookDAO extends DBConnect {
 
         try (PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setInt(1, bookId);
-             statement.executeUpdate();
+            statement.executeUpdate();
         } catch (SQLException e) {
             ExceptionHandlers.handleException(e);
         }
@@ -495,7 +495,32 @@ public class BookDAO extends DBConnect {
         return allAuthorsAdded;
     }
 
-    public boolean addNewBook(int categoryId, String title, int rating, double price, String description, String image, int quantity_in_stock) {
+    public boolean isBookTitleExists(int categoryId, String title) throws SQLException {
+        String query = "SELECT COUNT(*) FROM Books WHERE category_id = ? AND title = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, categoryId);
+            statement.setString(2, title);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;  // Nếu có sách trùng tên, trả về true
+            }
+        }
+        return false;
+    }
+
+    public boolean addNewBook(int categoryId, String title, int rating, double price, String description, String image, int quantity_in_stock) throws InvalidBookDetailsException, SQLException {
+        // Kiểm tra các điều kiện cho các tham số
+        if (rating < 1 || rating > 5) {
+            throw new InvalidBookDetailsException("Rating phải từ 1 đến 5.");
+        }
+        if (price <= 0) {
+            throw new InvalidBookDetailsException("Price phải lớn hơn 0.");
+        }
+        if (quantity_in_stock < 0) {
+            throw new InvalidBookDetailsException("Quantity in stock phải là số không âm.");
+        }
+
+        // Thực hiện câu lệnh SQL nếu các điều kiện hợp lệ
         String query = "INSERT INTO Books (category_id, title, rating, price, description, image, quantity_in_stock) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -511,9 +536,16 @@ public class BookDAO extends DBConnect {
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
-            ExceptionHandlers.handleException(e);
+            e.printStackTrace();
         }
         return false;
+    }
+
+    public class InvalidBookDetailsException extends Exception {
+
+        public InvalidBookDetailsException(String message) {
+            super(message);
+        }
     }
 
     public Book getNewestBook() {
@@ -629,7 +661,7 @@ public class BookDAO extends DBConnect {
 
     public List<Book> getTop10SoldBooksByCategory(int categoryId) {
         List<Book> topSoldBooks = new ArrayList<>();
-            String query = "  SELECT TOP 10 * FROM Books WHERE category_id = ? ORDER BY [book_id] DESC"; // Standard SQL syntax
+        String query = "  SELECT TOP 10 * FROM Books WHERE category_id = ? ORDER BY [book_id] DESC"; // Standard SQL syntax
 
         try (PreparedStatement statement = conn.prepareStatement(query)) {
 

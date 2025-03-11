@@ -9,8 +9,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Author;
 import model.Book;
 import model.Category;
@@ -80,6 +83,10 @@ public class AddNewBookController extends HttpServlet {
             // Xử lý lỗi nếu có
             request.setAttribute("message", "Error: " + ex.getMessage());
             request.getRequestDispatcher("addNewBook.jsp").forward(request, response);
+        } catch (BookDAO.InvalidBookDetailsException ex) {
+            Logger.getLogger(AddNewBookController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddNewBookController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

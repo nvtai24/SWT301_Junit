@@ -26,7 +26,7 @@ public class Book {
     private List<Author> listAuthor;
     private String image ; 
 
-    public Book(int bookId, Category categoryId, String title, int rating, double price, int viewCount, int quantityInStock, int quantitySold, Date releaseDate, String description, String image) {
+    public Book(int bookId, String title, String description, double price) {
         this.bookId = bookId;
         this.categoryId = categoryId;
         this.title = title;
