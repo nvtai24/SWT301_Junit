@@ -58,7 +58,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div id="tg-bestsellingbooksslider" class="tg-bestsellingbooksslider tg-bestsellingbooks owl-carousel">
                                 <c:forEach var="listBook" items="${listTop10SoldBook}">
-                                    <div class="item" >
+                                    <div class="item book-item" >
                                         <div class="tg-postbook tg-notag">
                                             <figure class="tg-featureimg">
                                                 <div class="tg-bookimg">
@@ -73,13 +73,16 @@
                                                 </c:if>
 
 
-                                                </figure>
-                                                <div class="tg-postbookcontent">
-                                                    <ul class="tg-bookscategories">
-                                                        <li><a href="javascript:void(0);">${listBook.getCategoryId().getCategoryName()}</a></li>
+                                            </figure>
+                                            <div class="tg-postbookcontent">
+                                                <ul class="tg-bookscategories">
+                                                    <li><a href="javascript:void(0);">${listBook.getCategoryId().getCategoryName()}</a></li>
                                                 </ul>
                                                 <div class="tg-booktitle">
                                                     <h3><a href="book-detail?bookId=${listBook.getBookId()}">${listBook.getTitle()}</a></h3>
+                                                    <input type="hidden" name="bookTitleHidden" value="${listBook.getTitle()}">
+
+
                                                 </div>
                                                 <span class="tg-bookwriter">By: 
                                                     <c:forEach var="authorList" items="${listBook.getListAuthor()}" varStatus="status">
@@ -108,7 +111,7 @@
                                                     <i class="fa fa-shopping-basket"></i>
                                                     <form action="cart" method="post">
                                                         <input hidden="" title="text" name="bookId" value="${listBook.getBookId()}">
-                                                        <input type="submit" value="Add to cart" style="border: none; background: none">
+                                                        <input type="submit" id="addBtn" class="addToCartBtn" value="Add to cart" style="border: none; background: none">
                                                     </form>
                                                 </a>
                                             </div>
@@ -156,7 +159,7 @@
                                     <div class="tg-newreleasebooks">
                                         <c:forEach var="listBook" items="${listTop3ReleaseDate}">
                                             <div class="col-xs-4 col-sm-4 col-md-6 col-lg-4">
-                                                <div class="tg-postbook">
+                                                <div class="tg-postbook ">
                                                     <figure class="tg-featureimg">
                                                         <div class="tg-bookimg">
                                                             <div class="tg-frontcover"><img src="${listBook.getImage()}" alt="image description"></div>

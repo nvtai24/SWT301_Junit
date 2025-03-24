@@ -1,0 +1,7 @@
+testCaseName,bookId,quantity,expectedUrlContains,expectedCartQuantity,shouldLogin
+testAddToCartWithLogin,,1,cart,,true
+testAddToCartWithAvailableQuantity,4,5,cart,,true
+testAddToCartMoreThanAvailableQuantity,4,999,book-detail,,true
+testAddToCartUnavailableQuantity,4,-1,book-detail,,true
+testAddToCartChangeQuantity,4,3,cart,,true
+testUpdateQuantity,4,2,cart,3,true

@@ -24,6 +24,117 @@
         <link rel="stylesheet" href="css/color.css">
         <link rel="stylesheet" href="css/responsive.css">
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <style>
+            .author-form-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.author-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    color: #333;
+}
+
+.author-form-container .form-group {
+    margin-bottom: 20px;
+}
+
+.author-form-container .form-group label {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.author-form-container .form-group input, 
+.author-form-container .form-group textarea, 
+.author-form-container .form-group select {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.author-form-container .form-group input:focus, 
+.author-form-container .form-group textarea:focus, 
+.author-form-container .form-group select:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.author-form-container .form-group textarea {
+    min-height: 150px;
+}
+
+.author-form-container .btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 1.1em;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.author-form-container .btn:hover {
+    background-color: #2980b9;
+}
+
+.author-form-container .form-group input[type="file"] {
+    padding: 5px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+}
+
+.form-footer {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.form-footer a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .author-form-container {
+        padding: 15px;
+    }
+
+    .author-form-container h2 {
+        font-size: 1.5em;
+    }
+
+    .author-form-container .form-group {
+        margin-bottom: 15px;
+    }
+
+    .author-form-container .btn {
+        font-size: 1em;
+    }
+}
+        </style>
+            
     </head>
     <body>
 

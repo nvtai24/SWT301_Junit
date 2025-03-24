@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="UserDAO Test Suite">
+  <test name="UserDAO Test">
+    <classes>
+      <class name="dao.UserDAOTest"/>
+    </classes>
+  </test>
+</suite>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="BookShopTestSuite" verbose="1">
+    <listeners>
+        <!-- Báo cáo HTML -->
+        <listener class-name="org.testng.reporters.HTMLReporter"/>
+        
+        <!-- Báo cáo Email -->
+        <listener class-name="org.testng.reporters.EmailableReporter"/>
+        
+        <!-- Báo cáo XML -->
+        <listener class-name="org.testng.reporters.XMLReporter"/>
+    </listeners>
+    
+    <test name="AuthorTests">
+        <classes>
+            <class name="dao.AuthorDataProviderTest"/>
+        </classes>
+    </test>
+</suite>

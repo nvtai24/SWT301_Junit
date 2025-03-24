@@ -93,13 +93,16 @@
                                                                         <div class="input-group-prepend">
                                                                             <button class="btn btn-outline-secondary" type="button" id="minusBtn">-</button>
                                                                         </div>
-                                                                        <input type="number" class="form-control result" value="${temp}" id="quantity1" name="quantity"
-                                                                               min="1" max="${book.getQuantityInStock()}">
+                                                                        <input type="number" class="form-control result" id="quantity1" name="quantity"
+                                                                               min="1" value="1" max="${book.getQuantityInStock()}">
+                                                                        
+                                                                        <input type="hidden" id="hiddenQuantity" name="hiddenQuantity" value="${book.getQuantityInStock()}">
+                                                                        
                                                                         <div class="input-group-append">
                                                                             <button class="btn btn-outline-secondary" type="button" id="plusBtn">+</button>
                                                                         </div>
                                                                     </div>
-                                                                    <button type="submit" class="tg-btn tg-active tg-btn-lg">Add to cart</button>
+                                                                        <button type="submit" class="tg-btn tg-active tg-btn-lg" name="addToCartBtn">Add to cart</button>
                                                                 </form>
                                                             </c:if>
 

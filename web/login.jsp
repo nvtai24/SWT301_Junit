@@ -70,17 +70,17 @@
                                     <fieldset>
                                         <div class="form-group">
                                             <label>Username</label>
-                                            <input type="text" name="username" class="form-control" placeholder="Username" required>
+                                            <input id="username" type="text" name="username" class="form-control" placeholder="Username" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input type="password" name="password" class="form-control" placeholder="Password" required>
+                                            <input id="password" type="password" name="password" class="form-control" placeholder="Password" required>
                                         </div>
                                         <div class="form-group">
                                             <p> <input type="checkbox" name="name"> Remember me.</p>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="tg-btn tg-active">Login</button>
+                                            <button type="submit" class="tg-btn tg-active" id="loginSubmit">Login</button>
                                         </div>
                                         <div class="form-group">
                                             <p>Don't have an account? <a href="register">Register here</a></p>

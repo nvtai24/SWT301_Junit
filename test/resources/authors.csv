@@ -1,0 +1,5 @@
+authorName,description,imageName,expectedResult
+Mark Twain,American writer and humorist,author1.jpg,true
+J.K. Rowling,British author best known for Harry Potter series,author2.jpg,true
+Stephen King,Horror and supernatural fiction writer,author3.jpg,true
+George Orwell,English novelist and essayist known for dystopian fiction,,true

@@ -317,6 +317,19 @@ public class UserDAO extends DBConnect {
     return false;
 }
 
-
+public String getAuthorImageById(int authorId) {
+    String imagePath = null;
+    String query = "SELECT image FROM Authors WHERE author_id = ?";
+    try (PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setInt(1, authorId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            imagePath = rs.getString("image");
+        }
+    } catch (SQLException e) {
+        ExceptionHandlers.handleException(e);
+    }
+    return imagePath;
+}
 
 }

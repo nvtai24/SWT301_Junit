@@ -26,6 +26,180 @@
             #addAuthorForm {
                 display: none;
             }
+            /* Nút thêm tác giả */
+            #showFormBtn {
+                margin-bottom: 10px;
+                background-color: #77b748; /* Màu xanh lá cây */
+                color: white;
+                padding: 10px 20px;
+                font-size: 1em;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            #showFormBtn:hover {
+                background-color: #77b748;
+            }
+
+            button[type="submit"] {
+                background-color: #77b748; /* Màu xanh lá cây */
+                color: white;
+                padding: 10px 20px;
+                font-size: 1.1em;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-bottom: 10px;
+                margin-top: 10px;
+
+            }
+
+            button[type="submit"]:hover {
+                background-color: #77b748; /* Màu xanh lá cây tối */
+            }
+
+            /* Khung bảng */
+            table {
+                width: 100%;
+                margin-top: 30px;
+                border-collapse: collapse;
+            }
+
+            table th, table td {
+                padding: 12px;
+                text-align: center;
+                border: 1px solid #ddd;
+            }
+
+            table th {
+                background-color: #77b748; /* Màu xanh lá cây */
+                color: white;
+            }
+
+            table tbody tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            /* Nút hành động trong bảng */
+            .btn-sm {
+                padding: 5px 10px;
+                font-size: 0.9em;
+                margin-right: 5px;
+            }
+
+            .btn-warning {
+                background-color: #f39c12;
+                color: white;
+            }
+
+            .btn-warning:hover {
+                background-color: #e67e22;
+            }
+
+            .btn-danger {
+                background-color: #e74c3c;
+                color: white;
+            }
+
+            .btn-danger:hover {
+                background-color: #c0392b;
+            }
+
+
+            /* Form Styling */
+            .author-form-container {
+                margin: 30px 0;
+                padding: 25px;
+                background-color: #f8f9fa;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .author-form {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                align-items: flex-start;
+            }
+
+            .form-group {
+                flex: 1 1 300px;
+            }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: #333;
+            }
+
+            .form-control {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 16px;
+                transition: border-color 0.3s;
+            }
+
+            .form-control:focus {
+                border-color: #77b748;
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(119, 183, 72, 0.2);
+            }
+
+            .image-preview-container {
+                margin-top: 10px;
+                width: 150px;
+                height: 150px;
+                border: 2px dashed #ddd;
+                border-radius: 4px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                background-color: #fff;
+            }
+
+            .image-preview {
+                max-width: 100%;
+                max-height: 100%;
+                display: none;
+            }
+
+            .image-placeholder {
+                color: #999;
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .btn-submit {
+                background-color: #77b748;
+                color: white;
+                padding: 12px 24px;
+                font-size: 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+                margin-top: 20px;
+            }
+
+            .btn-submit:hover {
+                background-color: #669e3e;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .author-form {
+                    flex-direction: column;
+                }
+
+                .form-group {
+                    flex: 1 1 100%;
+                }
+            }
         </style>
     </head>
     <body>
@@ -75,50 +249,71 @@
                                 <!-- Button to show the form -->
                                 <button id="showFormBtn" class="btn btn-success mb-3">Add New Author</button>
 
-                                <!-- Form to add a new author -->
-                                <form id="addAuthorForm" action="add-edit-author" method="post" class="mb-4">
+                                <!-- Add Author Form -->
+                                <form id="addAuthorForm" action="add-edit-author" method="post" enctype="multipart/form-data" class="author-form">
                                     <input type="hidden" name="action" value="add">
 
-                                    <div class="form-row">
-                                        <div class="col-md-4 mb-3">
-                                            <input type="text" class="form-control" name="authorName" placeholder="Name" required>
+                                    <div class="form-group">
+                                        <label for="authorName">Author Name</label>
+                                        <input type="text" class="form-control" name="authorName" id="authorName" placeholder="Enter author name" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="authorImageFile">Author Image</label>
+                                        <input type="file" class="form-control" name="authorImageFile" id="authorImageFile" accept="image/*">
+                                        <div class="image-preview-container">
+                                            <img id="imagePreview" class="image-preview" src="#" alt="Image Preview">
+                                            <div id="imagePlaceholder" class="image-placeholder">
+                                                <i class="fa fa-image"></i>
+                                                <p>Image preview will appear here</p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-4 mb-3">
-                                            <input type="text" class="form-control" name="authorImage" placeholder="Link image">
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <input type="text" class="form-control" name="authorDescription" placeholder="description">
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <button type="submit" class="btn btn-primary">Add New Author</button>
-                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="authorDescription">Description</label>
+                                        <textarea class="form-control" name="authorDescription" id="authorDescription" rows="4" placeholder="Enter author description"></textarea>
+                                    </div>
+
+                                    <div class="form-group" style="flex-basis: 100%;">
+                                        <button type="submit" class="btn-submit">Add New Author</button>
                                     </div>
                                 </form>
 
-                                <br>
-                                <br>
-                                <br>
+                                <!-- Edit Author Form -->
+                                <div class="author-form-container" id="editAuthorFormContainer" style="display: none;">
+                                    <h3>Edit Author</h3>
+                                    <form id="editAuthorForm" action="add-edit-author" method="post" enctype="multipart/form-data" class="author-form">
+                                        <input type="hidden" name="action" value="edit">
+                                        <input type="hidden" name="authorId" id="editAuthorId">
 
-                                <!-- Form to edit an author -->
-                                <form id="editAuthorForm" action="add-edit-author" method="post" class="mb-4" style="display: none;">
-                                    <input type="hidden" name="action" value="edit">
-                                    <input type="hidden" name="authorId" id="editAuthorId">
-                                    <div class="form-row">
-                                        <div class="col-md-4 mb-3">
-                                            <input type="text" class="form-control" name="authorName" id="editAuthorName" placeholder="Author Name" required>
+                                        <div class="form-group">
+                                            <label for="editAuthorName">Author Name</label>
+                                            <input type="text" class="form-control" name="authorName" id="editAuthorName" placeholder="Enter author name" required>
                                         </div>
-                                        <div class="col-md-4 mb-3">
-                                            <input type="text" class="form-control" name="authorImage" id="editAuthorImage" placeholder="Image URL">
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <input type="text" class="form-control" name="authorDescription" id="editAuthorDescription" placeholder="Description">
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <button type="submit" class="btn btn-primary">Update Author</button>
-                                        </div>
-                                    </div>
-                                </form>
 
+                                        <div class="form-group">
+                                            <label for="editAuthorImageFile">Author Image</label>
+                                            <input type="file" class="form-control" name="authorImageFile" id="editAuthorImageFile" accept="image/*">
+                                            <div class="image-preview-container">
+                                                <img id="editImagePreview" class="image-preview" src="#" alt="Image Preview">
+                                                <div id="editImagePlaceholder" class="image-placeholder">
+                                                    <i class="fa fa-image"></i>
+                                                    <p>Current or new image preview</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="editAuthorDescription">Description</label>
+                                            <textarea class="form-control" name="authorDescription" id="editAuthorDescription" rows="4" placeholder="Enter author description"></textarea>
+                                        </div>
+
+                                        <div class="form-group" style="flex-basis: 100%;">
+                                            <button type="submit" class="btn-submit">Update Author</button>
+                                        </div>
+                                    </form>
+                                </div>
                                 <table id="order-list" class="display table table-striped table-hover tg-order-table">
                                     <thead>
                                         <tr>
@@ -241,6 +436,84 @@
                                                                document.getElementById("editAuthorName").value = authorName;
                                                                document.getElementById("editAuthorImage").value = authorImage;
                                                                document.getElementById("editAuthorDescription").value = authorDescription;
+                                                           }
+
+                                                           function showEditForm(authorId, authorName, authorImage, authorDescription) {
+                                                               var form = document.getElementById("editAuthorForm");
+                                                               form.style.display = "block";
+                                                               document.getElementById("editAuthorId").value = authorId;
+                                                               document.getElementById("editAuthorName").value = authorName;
+                                                               document.getElementById("editAuthorDescription").value = authorDescription;
+
+                                                               // Display the current image if there is one
+                                                               var currentImageElement = document.getElementById("currentAuthorImage");
+                                                               if (authorImage && authorImage !== '') {
+                                                                   currentImageElement.src = authorImage;
+                                                                   currentImageElement.style.display = "block";
+                                                               } else {
+                                                                   currentImageElement.style.display = "none";
+                                                               }
+                                                           }
+                                                           document.getElementById('authorImageFile').addEventListener('change', function (event) {
+                                                               const imagePreview = document.getElementById('imagePreview');
+                                                               const imagePlaceholder = document.getElementById('imagePlaceholder');
+
+                                                               if (event.target.files && event.target.files[0]) {
+                                                                   const reader = new FileReader();
+
+                                                                   reader.onload = function (e) {
+                                                                       imagePreview.src = e.target.result;
+                                                                       imagePreview.style.display = 'block';
+                                                                       imagePlaceholder.style.display = 'none';
+                                                                   };
+
+                                                                   reader.readAsDataURL(event.target.files[0]);
+                                                               } else {
+                                                                   imagePreview.style.display = 'none';
+                                                                   imagePlaceholder.style.display = 'flex';
+                                                               }
+                                                           });
+
+                                                           document.getElementById('editAuthorImageFile').addEventListener('change', function (event) {
+                                                               const imagePreview = document.getElementById('editImagePreview');
+                                                               const imagePlaceholder = document.getElementById('editImagePlaceholder');
+
+                                                               if (event.target.files && event.target.files[0]) {
+                                                                   const reader = new FileReader();
+
+                                                                   reader.onload = function (e) {
+                                                                       imagePreview.src = e.target.result;
+                                                                       imagePreview.style.display = 'block';
+                                                                       imagePlaceholder.style.display = 'none';
+                                                                   };
+
+                                                                   reader.readAsDataURL(event.target.files[0]);
+                                                               }
+                                                           });
+
+
+                                                           function showEditForm(authorId, authorName, authorImage, authorDescription) {
+                                                               document.getElementById('editAuthorFormContainer').style.display = 'block';
+
+                                                               document.getElementById('editAuthorId').value = authorId;
+                                                               document.getElementById('editAuthorName').value = authorName;
+                                                               document.getElementById('editAuthorDescription').value = authorDescription;
+
+                                                               const imagePreview = document.getElementById('editImagePreview');
+                                                               const imagePlaceholder = document.getElementById('editImagePlaceholder');
+
+                                                               if (authorImage && authorImage !== '') {
+                                                                   imagePreview.src = authorImage;
+                                                                   imagePreview.style.display = 'block';
+                                                                   imagePlaceholder.style.display = 'none';
+                                                               } else {
+                                                                   imagePreview.style.display = 'none';
+                                                                   imagePlaceholder.style.display = 'flex';
+                                                               }
+
+                                                               document.getElementById('editAuthorFormContainer').scrollIntoView({
+                                                                   behavior: 'smooth'
+                                                               });
                                                            }
         </script>
 

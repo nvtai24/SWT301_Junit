@@ -145,7 +145,7 @@
                                                         <h6>$ ${orderDetail.getPrice()}</h6>
                                                     </td>
                                                     <td class="tg-cart-quantity">
-                                                        <input type="number" class="form-control" value="${orderDetail.getQuantity()}">
+                                                        <input type="number" class="form-control" id="cartQuantity" value="${orderDetail.getQuantity()}">
                                                     </td>
                                                     <td class="tg-cart-total">
                                                         <strong>$ ${orderDetail.getPrice() * orderDetail.getQuantity()}</strong>
@@ -157,7 +157,7 @@
                                 </div>
                                 <!-- Minicart Footer -->
                                 <div class="tg-minicartfoot">
-                                    <a class="tg-btnemptycart btn btn-danger" href="ClearCart?clear=true">
+                                    <a class="tg-btnemptycart btn btn-danger" id="clearCart" href="ClearCart?clear=true">
                                         <i class="fa fa-trash-o"></i>
                                         <span>Clear Cart</span>
                                     </a>
