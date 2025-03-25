@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Author Test Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        .pass { color: green; }
+        .fail { color: red; }
+        .error { color: orange; }
+        .skipped { color: gray; }
+        .screenshot { max-width: 100px; max-height: 100px; cursor: pointer; }
+        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.9); }
+        .modal-content { margin: auto; display: block; width: 80%; max-width: 700px; }
+        .close { position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Author Test Results</h1>
+    <p>Test run completed at: Tue Mar 25 10:44:30 ICT 2025</p>
+    <h2>Summary</h2>
+    <p>Total Tests: 4</p>
+    <p>Passed: <span class='pass'>4</span></p>
+    <p>Failed: <span class='fail'>0</span></p>
+    <p>Errors: <span class='error'>0</span></p>
+    <p>Skipped: <span class='skipped'>0</span></p>
+    <h2>Test Details</h2>
+    <table>
+        <tr>
+            <th>Author Name</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Expected Result</th>
+            <th>Status</th>
+            <th>Message</th>
+            <th>Screenshot</th>
+            <th>Time (ms)</th>
+        </tr>
+        <tr>
+            <td>J.K. Rowling</td>
+            <td>British author best known for Harry Potter series</td>
+            <td>author2.jpg</td>
+            <td>Success</td>
+            <td class='pass'>PASSED</td>
+            <td>Author was successfully added as expected</td>
+            <td><img src='test-output/screenshots/before_submit_J.K._Rowling_20250325_104312.png' class='screenshot' onclick='showImage("test-output/screenshots/before_submit_J.K._Rowling_20250325_104312.png")'></td>
+            <td>32932</td>
+        </tr>
+        <tr>
+            <td>Mark Twain</td>
+            <td>American writer and humorist</td>
+            <td>author1.jpg</td>
+            <td>Success</td>
+            <td class='pass'>PASSED</td>
+            <td>Author was successfully added as expected</td>
+            <td><img src='test-output/screenshots/before_submit_Mark_Twain_20250325_104239.png' class='screenshot' onclick='showImage("test-output/screenshots/before_submit_Mark_Twain_20250325_104239.png")'></td>
+            <td>29284</td>
+        </tr>
+        <tr>
+            <td>George Orwell</td>
+            <td>English novelist and essayist known for dystopian ...</td>
+            <td>None</td>
+            <td>Success</td>
+            <td class='pass'>PASSED</td>
+            <td>Author was successfully added as expected</td>
+            <td><img src='test-output/screenshots/before_submit_George_Orwell_20250325_104417.png' class='screenshot' onclick='showImage("test-output/screenshots/before_submit_George_Orwell_20250325_104417.png")'></td>
+            <td>33560</td>
+        </tr>
+        <tr>
+            <td>Stephen King</td>
+            <td>Horror and supernatural fiction writer</td>
+            <td>author3.jpg</td>
+            <td>Success</td>
+            <td class='pass'>PASSED</td>
+            <td>Author was successfully added as expected</td>
+            <td><img src='test-output/screenshots/before_submit_Stephen_King_20250325_104343.png' class='screenshot' onclick='showImage("test-output/screenshots/before_submit_Stephen_King_20250325_104343.png")'></td>
+            <td>31736</td>
+        </tr>
+    </table>
+    <div id='imageModal' class='modal'>
+        <span class='close' onclick='closeModal()'>&times;</span>
+        <img class='modal-content' id='modalImage'>
+    </div>
+    <script>
+        function showImage(src) {
+            var modal = document.getElementById('imageModal');
+            var modalImg = document.getElementById('modalImage');
+            modal.style.display = 'block';
+            modalImg.src = src;
+        }
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -10,24 +10,34 @@ import java.io.File;
 
 public class ReportExporter {
 
-    // Đảm bảo thư mục "cart_test_output" tồn tại
     private static final String OUTPUT_DIR = "cart_test_output/";
+
+    // Hàm xóa toàn bộ file trong thư mục
+    private static void deleteExistingReports() {
+        File outputDir = new File(OUTPUT_DIR);
+        if (outputDir.exists() && outputDir.isDirectory()) {
+            File[] existingFiles = outputDir.listFiles();
+            if (existingFiles != null) {
+                for (File file : existingFiles) {
+                    if (file.isFile()) {
+                        file.delete();
+                    }
+                }
+            }
+        } else {
+            outputDir.mkdir(); // Tạo thư mục nếu chưa tồn tại
+        }
+    }
 
     // Hàm export báo cáo ra CSV
     public static void exportToCSV(List<TestResult> testResults) {
-        // Tạo thư mục nếu chưa tồn tại
-        File outputDir = new File(OUTPUT_DIR);
-        if (!outputDir.exists()) {
-            outputDir.mkdir();
-        }
+        deleteExistingReports(); // Xóa các báo cáo cũ trước khi tạo mới
 
         String reportPath = OUTPUT_DIR + "test_report_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".csv";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(reportPath))) {
-            // CSV header
             writer.write("Test Case,Status,Message,Time (ms)");
             writer.newLine();
 
-            // CSV data
             for (TestResult result : testResults) {
                 writer.write(result.testCaseName + ",");
                 writer.write(result.status + ",");
@@ -44,15 +54,10 @@ public class ReportExporter {
 
     // Hàm export báo cáo ra HTML
     public static void exportToHTML(List<TestResult> testResults) {
-        // Tạo thư mục nếu chưa tồn tại
-        File outputDir = new File(OUTPUT_DIR);
-        if (!outputDir.exists()) {
-            outputDir.mkdir();
-        }
+        deleteExistingReports(); // Xóa các báo cáo cũ trước khi tạo mới
 
         String reportPath = OUTPUT_DIR + "test_report_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".html";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(reportPath))) {
-            // HTML Header with CSS for styling
             writer.write("<!DOCTYPE html><html lang='en'><head>");
             writer.write("<meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'>");
             writer.write("<title>Test Results</title>");
@@ -73,7 +78,6 @@ public class ReportExporter {
             writer.write("<table>");
             writer.write("<tr><th>Test Case</th><th>Status</th><th>Message</th><th>Time (ms)</th></tr>");
 
-            // HTML Data
             for (TestResult result : testResults) {
                 String statusClass = "";
                 switch (result.status) {

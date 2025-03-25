@@ -1,4 +1,0 @@
-Test Case,Status,Message,Time (ms)
-testAddToCartWithLogin,PASSED,Test passed successfully,12621
-testAddToCartWithAvailableQuantity,PASSED,Test passed successfully,8099
-testAddToCartMoreThanAvailableQuantity,PASSED,Test passed successfully,9457

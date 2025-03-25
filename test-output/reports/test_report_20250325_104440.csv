@@ -1,0 +1,5 @@
+Author Name,Description,Image,Expected Result,Status,Message,Screenshot,Time (ms)
+J.K. Rowling,British author best known for Harry Potter series,author2.jpg,true,PASSED,Author was successfully added as expected,test-output/screenshots/before_submit_J.K._Rowling_20250325_104425.png,6479
+Mark Twain,American writer and humorist,author1.jpg,true,PASSED,Author was successfully added as expected,test-output/screenshots/before_submit_Mark_Twain_20250325_104418.png,6949
+George Orwell,English novelist and essayist known for dystopian fiction,,true,PASSED,Author was successfully added as expected,test-output/screenshots/before_submit_George_Orwell_20250325_104437.png,5346
+Stephen King,Horror and supernatural fiction writer,author3.jpg,true,PASSED,Author was successfully added as expected,test-output/screenshots/before_submit_Stephen_King_20250325_104431.png,6418
