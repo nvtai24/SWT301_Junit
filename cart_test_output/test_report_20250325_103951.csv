@@ -1,0 +1,7 @@
+Test Case,Status,Message,Time (ms)
+testAddToCartWithLogin,PASSED,Test passed successfully,4890
+testAddToCartWithAvailableQuantity,PASSED,Test passed successfully,4432
+testAddToCartMoreThanAvailableQuantity,PASSED,Test passed successfully,3822
+testAddToCartUnavailableQuantity,PASSED,Test passed successfully,3120
+testAddToCartChangeQuantity,PASSED,Test passed successfully,3609
+testUpdateQuantity,PASSED,Test passed successfully,4791
