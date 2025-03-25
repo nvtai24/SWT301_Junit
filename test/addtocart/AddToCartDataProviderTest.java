@@ -20,14 +20,15 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
- *
- * @author Nvtai
+ * 
  */
 public class AddToCartDataProviderTest {
 
     private WebDriver driver;
     private WebDriverWait wait;
     private String url = "http://localhost:8084/BookShop/";
+
+    private List<TestResult> testResults = new ArrayList<>(); // List to hold test results
 
     @BeforeMethod
     public void setUp() throws InterruptedException {
@@ -56,63 +57,69 @@ public class AddToCartDataProviderTest {
     }
 
     @Test(dataProvider = "testData")
-    public void testAddToCart(String testCaseName, String bookId, String quantity, String expectedUrlContains, 
-                              String expectedCartQuantity, boolean shouldLogin) throws InterruptedException {
-        // Đăng nhập nếu shouldLogin là true
-        if (shouldLogin) {
-            driver.get(url + "login.jsp");
+    public void testAddToCart(String testCaseName, String bookId, String quantity, String expectedUrlContains,
+            String expectedCartQuantity, boolean shouldLogin) throws InterruptedException {
+        long startTime = System.currentTimeMillis(); // Start time of the test case
+
+        try {
+            if (shouldLogin) {
+                driver.get(url + "login.jsp");
+                Thread.sleep(2000);
+
+                WebElement username = driver.findElement(By.id("username"));
+                WebElement password = driver.findElement(By.id("password"));
+                WebElement loginSubmit = driver.findElement(By.id("loginSubmit"));
+
+                username.sendKeys("admin");
+                password.sendKeys("admin123");
+                loginSubmit.click();
+                Thread.sleep(2000);
+            }
+
+            if (testCaseName.equals("testUpdateQuantity")) {
+                // Thêm 1 sản phẩm vào giỏ hàng trước
+                driver.get(url + "book-detail?bookId=" + bookId);
+                WebElement quantityInputInitial = driver.findElement(By.name("quantity"));
+                quantityInputInitial.clear();
+                quantityInputInitial.sendKeys("1");
+                driver.findElement(By.name("addToCartBtn")).click();
+                Thread.sleep(2000);
+            }
+
+            if (bookId.isEmpty()) {
+                driver.get(url + "home");
+                Thread.sleep(2000);
+                List<WebElement> books = driver.findElements(By.className("book-item"));
+                WebElement book1 = books.get(0);
+                WebElement addToCartButton = book1.findElement(By.className("addToCartBtn"));
+                JavascriptExecutor executor = (JavascriptExecutor) driver;
+                executor.executeScript("arguments[0].click();", addToCartButton);
+            } else {
+                driver.get(url + "book-detail?bookId=" + bookId);
+                WebElement quantityInput = driver.findElement(By.name("quantity"));
+                quantityInput.clear();
+                quantityInput.sendKeys(quantity);
+                driver.findElement(By.name("addToCartBtn")).click();
+            }
+
             Thread.sleep(2000);
+            String currentUrl = driver.getCurrentUrl();
 
-            WebElement username = driver.findElement(By.id("username"));
-            WebElement password = driver.findElement(By.id("password"));
-            WebElement loginSubmit = driver.findElement(By.id("loginSubmit"));
+            Assert.assertTrue(currentUrl.contains(expectedUrlContains),
+                    testCaseName + ": Expected URL to contain '" + expectedUrlContains + "', but got: " + currentUrl);
 
-            username.sendKeys("admin");
-            password.sendKeys("admin123");
-            loginSubmit.click();
-            Thread.sleep(2000);
-        }
+            if (!expectedCartQuantity.isEmpty() && currentUrl.contains("cart")) {
+                String cartQuantity = driver.findElement(By.id("cartQuantity")).getAttribute("value");
+                Assert.assertEquals(cartQuantity, expectedCartQuantity,
+                        testCaseName + ": Quantity in cart does not match expected value");
+            }
 
-        // Xử lý trường hợp đặc biệt cho testUpdateQuantity
-        if (testCaseName.equals("testUpdateQuantity")) {
-            // Thêm 1 sản phẩm vào giỏ hàng trước
-            driver.get(url + "book-detail?bookId=" + bookId);
-            WebElement quantityInputInitial = driver.findElement(By.name("quantity"));
-            quantityInputInitial.clear();
-            quantityInputInitial.sendKeys("1");
-            driver.findElement(By.name("addToCartBtn")).click();
-            Thread.sleep(2000);
-        }
+            long executionTime = System.currentTimeMillis() - startTime; // End time of the test case
+            testResults.add(new TestResult(testCaseName, "PASSED", "Test passed successfully", executionTime));
 
-        // Điều hướng đến trang phù hợp và thực hiện hành động
-        if (bookId.isEmpty()) {
-            driver.get(url + "home");
-            Thread.sleep(2000);
-            List<WebElement> books = driver.findElements(By.className("book-item"));
-            WebElement book1 = books.get(0);
-            WebElement addToCartButton = book1.findElement(By.className("addToCartBtn"));
-            JavascriptExecutor executor = (JavascriptExecutor) driver;
-            executor.executeScript("arguments[0].click();", addToCartButton);
-        } else {
-            driver.get(url + "book-detail?bookId=" + bookId);
-            WebElement quantityInput = driver.findElement(By.name("quantity"));
-            quantityInput.clear();
-            quantityInput.sendKeys(quantity);
-            driver.findElement(By.name("addToCartBtn")).click();
-        }
-
-        Thread.sleep(2000);
-        String currentUrl = driver.getCurrentUrl();
-
-        // Kiểm tra URL
-        Assert.assertTrue(currentUrl.contains(expectedUrlContains), 
-            testCaseName + ": Expected URL to contain '" + expectedUrlContains + "', but got: " + currentUrl);
-
-        // Kiểm tra số lượng trong giỏ hàng nếu có giá trị expectedCartQuantity
-        if (!expectedCartQuantity.isEmpty() && currentUrl.contains("cart")) {
-            String cartQuantity = driver.findElement(By.id("cartQuantity")).getAttribute("value");
-            Assert.assertEquals(cartQuantity, expectedCartQuantity, 
-                testCaseName + ": Quantity in cart does not match expected value");
+        } catch (Exception e) {
+            long executionTime = System.currentTimeMillis() - startTime; // If test failed, capture time
+            testResults.add(new TestResult(testCaseName, "FAILED", e.getMessage(), executionTime));
         }
     }
 
@@ -126,6 +133,11 @@ public class AddToCartDataProviderTest {
                     driver.findElement(By.id("clearCart")).click();
                     Thread.sleep(1000);
                 }
+
+                // Export results to CSV and HTML after the tests are done
+                ReportExporter.exportToCSV(testResults);
+                ReportExporter.exportToHTML(testResults);
+
                 driver.quit();
             } catch (InterruptedException ex) {
                 Logger.getLogger(AddToCartDataProviderTest.class.getName()).log(Level.SEVERE, null, ex);
